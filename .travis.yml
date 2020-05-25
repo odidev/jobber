@@ -4,8 +4,14 @@ language: Go
 
 services:
   - docker
-
-script:
-  - make check
-  - make -C smoke_tests
-
+jobs:
+  include:
+  - arch : amd64
+    script:
+        - make check
+        - make -C smoke_tests
+  - arch : arm64
+    script:
+        - docker pull alpine:latest
+        - chmod a+x docker_run.sh
+        - bash ./docker_run.sh
